@@ -48,13 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessDatabase.cs" />
-    <Compile Include="Donate.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Donate.Designer.cs">
-      <DependentUpon>Donate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Email.cs" />
     <Compile Include="EnterDB.cs" />
     <Compile Include="Signup.cs">
@@ -77,9 +70,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Donate.resx">
-      <DependentUpon>Donate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
