@@ -31,9 +31,11 @@ namespace WindowsFormsApp8
         public void Main_Load(object sender, EventArgs e)
         {
             fillData();
-
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
+            
             /**
-             * getting local date for donation details
              * author:Fatima Abdel Monem
              * */
             webBrowser1.Navigate("http://www.aabb.org/tm/donation/Pages/donatefaqs.aspx");
@@ -42,22 +44,18 @@ namespace WindowsFormsApp8
             label14.Text = "Date:  " + localdate.ToShortDateString();
         }
         /**
-         * data for the search 
-         * fills the grid view on the the main page of the form
          * author:Fatima Abdel Monem
          * */
         private void fillData()
         {
             MySqlDataAdapter adapter = new MySqlDataAdapter();
-            string sql = "select username, address, bloodgroup from dt";
+            string sql = "select username, Rh, bloodgroup from dt";
             MySqlCommand command = new MySqlCommand(sql, conn);
             adapter.SelectCommand = command;
             adapter.Fill(dt);
             dataGridView1.DataSource = dt;
         }
-        /**
-         * show the avaliable blood and donators in storage
-         */
+        
         public void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -69,7 +67,6 @@ namespace WindowsFormsApp8
             else
             {
                 dv.RowFilter = string.Format("Bloodgroup like '%{0}%'", comboBox1.SelectedItem.ToString());
-                // dv.RowFilter = string.Format("Rh like '%{0}%'", comboBox2.SelectedItem.ToString());
                 dataGridView1.DataSource = dv;
             }
         }
@@ -80,14 +77,10 @@ namespace WindowsFormsApp8
 
 
         /**
-         * Edit user data 
-         *uses EnterDB to access the mysql data base
          * author:Fatima El Halabi
-         * thinking of adding a for loop to reduce lines
          **/
         private void button1_Click(object sender, EventArgs e)
         {
-            bool save = false;
             if (textBox1.Text != "")
             {
                 string query = "Select * From dt where Username='" + textBox1.Text + "' ";
@@ -96,11 +89,11 @@ namespace WindowsFormsApp8
                 if (!EnterDB.ValidQuery(query))
                 {
                     MessageBox.Show("username taken try another one");
+                    textBox1.Text = "";
                 }
                 else
                 {
                     EnterDB.Query(queryupdate);
-                    save = true;
                 }
             }
             if (textBox2.Text != "")
@@ -108,7 +101,6 @@ namespace WindowsFormsApp8
 
                 String query = "update dt set fname='" + this.textBox2.Text + "'";
                 EnterDB.Query(query);
-                save = true;
 
             }
             if (textBox3.Text != "")
@@ -116,14 +108,12 @@ namespace WindowsFormsApp8
 
                 String query = "update dt set lname='" + this.textBox3.Text + "'";
                 EnterDB.Query(query);
-                save = true;
             }
             if (textBox4.Text != "")
             {
 
                 String query = "update dt set password='" + this.textBox4.Text + "'";
                 EnterDB.Query(query);
-                save = true;
 
             }
             if (textBox5.Text != "")
@@ -131,15 +121,14 @@ namespace WindowsFormsApp8
 
                 String query = "update blood set blood='" + this.textBox5.Text + "'";
                 EnterDB.Query(query);
-                save = true;
-
+               
             }
             if (textBox6.Text != "")
             {
 
                 String query = "update dt set Address='" + this.textBox6.Text + "'";
                 EnterDB.Query(query);
-                save = true;
+               
 
             }
             if (textBox7.Text != "")
@@ -147,7 +136,7 @@ namespace WindowsFormsApp8
 
                 String query = "update dt set TelNo='" + this.textBox7.Text + "'";
                 EnterDB.Query(query);
-                save = true;
+                
 
             }
             if (textBox8.Text != "")
@@ -155,14 +144,9 @@ namespace WindowsFormsApp8
 
                 String query = "update dt set email='" + this.textBox8.Text + "'";
                 EnterDB.Query(query);
-                save = true;
+               
             }
-            if(save)
-            {
-                MessageBox.Show("saved");
-
-                
-            }
+            
 
         }
 
@@ -174,12 +158,7 @@ namespace WindowsFormsApp8
 
 
         /**
-         * Donation page of form
-         * 
          * author:Fatima El Halabi
-         *check donation conditions like age weight and last donation
-         * if satisfied send email to user to inform 
-         * if not a messagebox appears to say user cannot donate
          */
         private void button2_Click(object sender, EventArgs e)
         {
@@ -200,8 +179,18 @@ namespace WindowsFormsApp8
             {
                 try
                 {
-                    string c = "select email from dt where username='" + login.getUsername() + "' ";
-                    string dbstr = EnterDB.StoreQuery(c);
+                    string query1 = "select Bloodgroup from dt where username='" + login.getUsername() + "'";
+                    string B =EnterDB.StoreQuery(query1);
+
+                    string query2 = "select Rh from dt where username='" + login.getUsername() + "'";
+                    string Rh = EnterDB.StoreQuery(query2);
+
+                    string query3 = "insert into donation (username,blood,Rh) values('" + login.getUsername() + "','" + B + "','" + Convert.ToInt32(Rh) + "')";
+                    EnterDB.Query(query3);
+                   
+
+                    string E = "select email from dt where username='" + login.getUsername() + "' ";
+                    string dbstr = EnterDB.StoreQuery(E);
                     bool result = Email.SendEmail(dbstr);
                     if (result == true)
                     {
@@ -222,8 +211,6 @@ namespace WindowsFormsApp8
         }
         /**
          * author:Fatima El Halabi
-         * Used webBrowser1 for FAQ 
-         * also used builtin function Navigate
          */
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
@@ -235,11 +222,8 @@ namespace WindowsFormsApp8
 
         }
         /**
-         * request blood
+         *
          * author:Fatima Abdel Monem
-         * checks the main information for a donation request
-         * if blood avliable user will be told his blood requested is avaliable
-         * else he/she will be informed if avaliable via sms for the place to donate
          */
 
         private void button3_Click(object sender, EventArgs e)
@@ -278,15 +262,13 @@ namespace WindowsFormsApp8
             {
                 bg = "O";
             }
-            //stroe the data to database
+           
             string query = "insert into requests (username,bloodgroup,Rh, Emergency) values('" + login.getUsername() + "','" + bg + "','" + Rh + "','" + Emergency + "')";
             EnterDB.Query(query);
 
-            //check if the data is avaliable in datavase 
+
             string query2 = "select Blood, rh from donation where blood='" + bg + "' and rh='" + Rh + "'";
 
-            //if avaliable pop a message that is avaliable and send sms for the meeting place
-            //else a message is shown that no blood as requested exist
             if (!EnterDB.ValidQuery(query2))
             {
                 MessageBox.Show("The blood you requested is Avaliable, we will contact you to inform you where to get it.");
@@ -316,7 +298,7 @@ namespace WindowsFormsApp8
         /**
          * Conatct us page 
          * author:Fatima Fatima El Halabi
-         * contain info for users to reach us for any issue
+         * 
          * 
          */
         private void tabPage7_Click(object sender, EventArgs e)
@@ -325,7 +307,7 @@ namespace WindowsFormsApp8
         }
         /**About us page 
          * author:Fatima Abdel Monem
-         * contains main info about us
+         * 
          * 
          */
         private void tabPage5_Click(object sender, EventArgs e)

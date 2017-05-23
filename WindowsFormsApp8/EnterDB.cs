@@ -1,11 +1,6 @@
 ﻿/**
  * author: Fatima Abdel Monem
- * access database to preform:
-* update
-* insert
-* delete
-* @parm comand for the query
-**/
+*/
 
 using MySql.Data.MySqlClient;
 using System;
@@ -15,21 +10,24 @@ namespace WindowsFormsApp8
 {
     class EnterDB
     {
-        
+
         public static void Query(string comand)
         {
-            string connectionString = "server=localhost;uid=root;pwd=;database=sql";
-            MySqlConnection conn = new MySqlConnection(connectionString);
-            conn.Open();
-            MySqlCommand c = new MySqlCommand(comand, conn);
-            MySqlDataReader reader = c.ExecuteReader();
-            conn.Close();
+            try
+            {
+                string connectionString = "server=localhost;uid=root;pwd=;database=sql";
+                MySqlConnection conn = new MySqlConnection(connectionString);
+                conn.Open();
+                MySqlCommand c = new MySqlCommand(comand, conn);
+                MySqlDataReader reader = c.ExecuteReader();
+                conn.Close();
+
+            }catch(Exception e)
+            {
+                MessageBox.Show("An Error occured", "Error", MessageBoxButtons.OK);
+            }
         }
-        /**
-         * function that gets the query result stored in a string
-         * @parm command for specified query
-         * 
-         */
+
         public static string StoreQuery(string command)
         {
             string connectionString = "server=localhost;uid=root;pwd=;database=sql";
@@ -42,12 +40,7 @@ namespace WindowsFormsApp8
             return x;
 
         }
-        /**
-         * function that checks if an item exsists in the database
-         * @parm command for specified query
-         * if yes returns false
-         * else returns true
-         */
+
         public static bool ValidQuery(string command)
         {
             string connectionString = "server=localhost;uid=root;pwd=;database=sql";
@@ -67,9 +60,7 @@ namespace WindowsFormsApp8
             }
             return true;
         }
-        /**
-         *function that deletes user account  
-         */
+
         public static bool DeleteAccount(string command)
         {
 
@@ -86,7 +77,7 @@ namespace WindowsFormsApp8
             }
             catch (Exception ex)
             {
-               MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
                 return false;
             }
         }

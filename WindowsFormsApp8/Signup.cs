@@ -1,4 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿/**
+ * Fatima Abdel Monem
+ */
+using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
 
@@ -52,7 +55,9 @@ namespace WindowsFormsApp8
             {
                 conn.Open();
 
-                String query = "Insert into dt (username,password,fname,lname,Address,TelNo,email,Bloodgroup) Values( '" + textBox1.Text + "','" + textBox3.Text + "','" + textBox10.Text + "','" + textBox9.Text + "','" + textBox6.Text + "','" + textBox7.Text + "','" + textBox8.Text + "','" + textBox4.Text + "') ";
+                String query = "Insert into dt (username,password,fname,lname,Address,TelNo,email,Bloodgroup,Rh) " +
+                    "Values( '" + textBox1.Text + "','" + textBox3.Text + "','" + textBox10.Text + "','" + textBox9.Text + "','" + textBox6.Text + "'," +
+                    "'" + textBox7.Text + "','" + textBox8.Text + "','" + textBox4.Text + "','" + textBox5.Text + "') ";
 
 
                 if (label4.ForeColor == System.Drawing.Color.Green)
@@ -62,12 +67,18 @@ namespace WindowsFormsApp8
 
                         if (textBox4.Text != "")
                         {
-
-                            MySqlCommand command = new MySqlCommand(query, conn);
-                            MySqlDataReader reader = command.ExecuteReader();
-                            MessageBox.Show("Successfully Signed up!");
-                            conn.Close();
-                            this.Close();
+                            if (textBox5.Text != "")
+                            {
+                                MySqlCommand command = new MySqlCommand(query, conn);
+                                MySqlDataReader reader = command.ExecuteReader();
+                                MessageBox.Show("Successfully Signed up!");
+                                conn.Close();
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("must insert your Rh factor");
+                            }
                         }
 
                         else

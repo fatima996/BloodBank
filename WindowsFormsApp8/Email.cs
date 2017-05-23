@@ -4,8 +4,6 @@ using System.Net;
 /**
  * 
  * author:Fatima Abdel Monem
- * purpose: send email to user to inform if the donation accepted
- * part of the code is from www.stackoverflow.com
  */
 namespace WindowsFormsApp8
 {
@@ -36,8 +34,10 @@ namespace WindowsFormsApp8
                 Encoding.UTF8)
             };
             msg.To.Add(new MailAddress(to));
-            msg.Subject = "";
-            msg.Body = "";
+            msg.Subject = "About Blood Donation";
+            msg.Body = "Thank you for helping people." +
+                " your donation may be a reason that someones life is saved." +
+                " \n Best Regards, \n Blood Bank :)";
             msg.BodyEncoding = Encoding.UTF8;
             msg.IsBodyHtml = true;
             msg.Priority = MailPriority.Normal;

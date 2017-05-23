@@ -1,6 +1,5 @@
 ﻿/**
  * author: Fatima El Halabi
- * Login form 
  * 
  */
 using System;
@@ -10,7 +9,6 @@ namespace WindowsFormsApp8
 {
     public partial class Login : Form
     {
-        //stores username
         private static string username;
         public Login()
         {
@@ -19,12 +17,9 @@ namespace WindowsFormsApp8
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-        /**
-         * a function that gets username in the login phase
-         * important for database access on later stages
-         */
+  
         public string getUsername()
         {
             return username;
@@ -60,5 +55,9 @@ namespace WindowsFormsApp8
             Environment.Exit(0);
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
