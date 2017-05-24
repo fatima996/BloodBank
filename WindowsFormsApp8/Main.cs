@@ -84,49 +84,54 @@ namespace WindowsFormsApp8
             if (textBox1.Text != "")
             {
                 string query = "Select * From dt where Username='" + textBox1.Text + "' ";
-                string queryupdate = "update dt set username='" + this.textBox1.Text + "'";
+                string queryupdate = "update dt set username='" + this.textBox1.Text + "' where username='" +login.getUsername() + "' ";
 
                 if (!EnterDB.ValidQuery(query))
                 {
                     MessageBox.Show("username taken try another one");
                     textBox1.Text = "";
                 }
+
                 else
                 {
                     EnterDB.Query(queryupdate);
+                    login.setUsername(textBox1.Text);
+              
+                   MessageBox.Show("saved");
+                    
                 }
             }
             if (textBox2.Text != "")
             {
 
-                String query = "update dt set fname='" + this.textBox2.Text + "'";
+                String query = "update dt set fname='" + this.textBox2.Text + "'  where username='" + login.getUsername() + "' ";
                 EnterDB.Query(query);
-
+                
             }
             if (textBox3.Text != "")
             {
 
-                String query = "update dt set lname='" + this.textBox3.Text + "'";
+                String query = "update dt set lname='" + this.textBox3.Text + "'  where username='" + login.getUsername() + "'  ";
                 EnterDB.Query(query);
             }
             if (textBox4.Text != "")
             {
 
-                String query = "update dt set password='" + this.textBox4.Text + "'";
+                String query = "update dt set password='" + this.textBox4.Text + "'  where username='" + login.getUsername() + "' ";
                 EnterDB.Query(query);
 
             }
             if (textBox5.Text != "")
             {
 
-                String query = "update blood set blood='" + this.textBox5.Text + "'";
+                String query = "update dt set bloodgroup='" + this.textBox5.Text + "'  where username='" + login.getUsername() + "' ";
                 EnterDB.Query(query);
                
             }
             if (textBox6.Text != "")
             {
 
-                String query = "update dt set Address='" + this.textBox6.Text + "'";
+                String query = "update dt set Address='" + this.textBox6.Text + "'  where username='" + login.getUsername() + "' ";
                 EnterDB.Query(query);
                
 
@@ -134,7 +139,7 @@ namespace WindowsFormsApp8
             if (textBox7.Text != "")
             {
 
-                String query = "update dt set TelNo='" + this.textBox7.Text + "'";
+                String query = "update dt set TelNo='" + this.textBox7.Text + "'  where username='" + login.getUsername() + "' ";
                 EnterDB.Query(query);
                 
 
@@ -142,11 +147,13 @@ namespace WindowsFormsApp8
             if (textBox8.Text != "")
             {
 
-                String query = "update dt set email='" + this.textBox8.Text + "'";
+                String query = "update dt set email='" + this.textBox8.Text + "'  where username='" + login.getUsername() + "' ";
                 EnterDB.Query(query);
                
             }
             
+                   
+
 
         }
 

@@ -13,8 +13,7 @@ namespace WindowsFormsApp8
 
         public static void Query(string comand)
         {
-            try
-            {
+           
                 string connectionString = "server=localhost;uid=root;pwd=;database=sql";
                 MySqlConnection conn = new MySqlConnection(connectionString);
                 conn.Open();
@@ -22,10 +21,7 @@ namespace WindowsFormsApp8
                 MySqlDataReader reader = c.ExecuteReader();
                 conn.Close();
 
-            }catch(Exception e)
-            {
-                MessageBox.Show("An Error occured", "Error", MessageBoxButtons.OK);
-            }
+           
         }
 
         public static string StoreQuery(string command)

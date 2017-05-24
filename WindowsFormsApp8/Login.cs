@@ -24,6 +24,10 @@ namespace WindowsFormsApp8
         {
             return username;
         }
+        public void setUsername(string name)
+        {
+            username = name;
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
